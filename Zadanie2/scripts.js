@@ -123,7 +123,7 @@ let updateTodoList = function () {
 
         todoTable.appendChild(newTableTr);
     }
-    
+
 };
 
 setInterval(updateTodoList, 1000);

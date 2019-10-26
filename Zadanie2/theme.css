@@ -3,10 +3,9 @@ table, th, td {
     border-collapse: collapse;
 }
 
-th, td {
-    text-align: center;
-}
-
 table {
+    text-align: center;
+    width: 80%;
     margin: 20px;
 }
+
