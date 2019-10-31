@@ -1,11 +1,67 @@
-table, th, td {
-    border: 1px solid black;
-    border-collapse: collapse;
+.container {
+    max-width: 90% !important;
+}
+
+.header {
+    text-align: center;
+    -webkit-box-shadow: 1px 3px 8px 1px rgba(0,0,0,0.7);
+    box-shadow: 1px 3px 8px 1px rgba(0,0,0,0.7);
+    margin-bottom: 70px;
+    max-width: 90% !important;
+    padding: 5px;
+}
+
+.col {
+    margin: 15px;
+}
+
+.navbar {
+    margin-bottom: 18px;
 }
 
 table {
     text-align: center;
-    width: 80%;
-    margin: 20px;
 }
 
+#inputSearch, #inputDateStart, #inputDateEnd {
+    margin-left: 10px;
+}
+#adding div {
+    padding-top: 20px;
+    padding-right: 30px;
+    padding-left: 30px;
+
+}
+
+#adding {
+    position: relative;
+    border: 4px solid transparent;
+    border-radius: 15% 50%;
+    background: white;
+    padding: 10px;
+}
+
+#adding:before {
+    position: absolute;
+    top: -10px; bottom: -10px;
+    left: -10px; right: -10px;
+    //background: linear-gradient(to bottom left, #2c1fff,#8018ff);
+    background: linear-gradient(to bottom left, #4673ff,#1cff3c);
+
+    content: '';
+    z-index: -1;
+    border-radius: 15% 50%;
+    box-shadow: 0 0 5px 5px rgba(0, 0, 0, 0.4);
+}
+
+#divButton {
+     padding-bottom: 50px !important;
+}
+
+#adding div label{
+    margin-right: 5px;
+}
+#adding div button{
+    float: right;
+
+}

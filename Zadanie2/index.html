@@ -20,29 +20,74 @@
 	</head>
 
 	<body>
-		<h1>MyNotes</h1>
-		<div id="todoListView"></div>
-		<table id="todoTable">
-			<tr>
-				<th>Title</th>
-				<th>Description</th>
-				<th>Delete</th>
-			</tr>
-		</table>
-		<form>
-			<label>Title</label>
-			<input type="text" id="inputTitle"/>
-			<label>Description</label>
-			<input type="text" id="inputDescription"/>
-			<label>Place</label>
-			<input type="text" id="inputPlace"/>
-			<label>Due date</label>
-			<input type="date" id="inputDate"/>
-			<input type="button" value="add" onclick="addTodo()"/>
-		</form>
-		<div>
-			<label>Search</label>
-			<input type="text" id="inputSearch" placeholder="Type Your seach here..."/>
+		<div class="container header">
+			<div class="row ">
+				<div class="col">
+					<h1>MyNotes</h1>
+
+				</div>
+			</div>
+		</div>
+		<div class="container">
+			<div class="row">
+				<div class="col col-lg">
+
+
+
+					<nav class="navbar justify-content-between">
+						<div class="form-inline justify-content-between">
+							<label for="inputDateStart">Start</label>
+							<input class="form-control" type="date" id="inputDateStart"/>
+						</div>
+						<div class="form-inline justify-content-between">
+							<label for="inputDateEnd">End</label>
+							<input class="form-control" type="date" id="inputDateEnd"/>
+						</div>
+						<div class="form-inline">
+							<label for="inputSearch">Search</label>
+							<input class="form-control" type="text" id="inputSearch" placeholder="Type Your seach here..."/>
+						</div>
+					</nav>
+
+					<table class="table table-bordered table-hover">
+						<thead>
+							<tr>
+								<th>Title</th>
+								<th>Description</th>
+								<th>Place</th>
+								<th>Due date</th>
+								<th>Delete</th>
+							</tr>
+						</thead>
+						<tbody id="todoTable"></tbody>
+					</table>
+				</div>
+				<div id="addingDiv" class="col col-sm-auto">
+					<form id="adding">
+						<div id="newTodo"><h4>New todo</h4></div>
+
+						<div class="form-inline justify-content-between">
+							<label for="inputTitle">Title</label>
+							<input class="form-control" type="text" placeholder="Enter title" id="inputTitle"/>
+						</div>
+						<div class="form-inline justify-content-between">
+							<label for="inputDescription">Description</label>
+							<input class="form-control" type="text" placeholder="Enter description" id="inputDescription"/>
+						</div>
+						<div class="form-inline justify-content-between">
+							<label for="inputPlace">Place</label>
+							<input class="form-control" type="text" placeholder="Enter place" id="inputPlace"/>
+						</div>
+						<div class="form-inline justify-content-between">
+							<label for="inputDate">Due date</label>
+							<input class="form-control" type="date" id="inputDate"/>
+						</div>
+
+						<div id="divButton"><button type="button" class="btn btn-outline-success" onclick="addTodo()">Add</button></div>
+
+					</form>
+				</div>
+			</div>
 		</div>
 	</body>
 </html>
