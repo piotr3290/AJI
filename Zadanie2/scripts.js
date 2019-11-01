@@ -61,6 +61,9 @@ let updateJSONbin = function () {
 let updateTodoList = function () {
     //let todoListDiv = document.getElementById("todoListView");
     let filterInput = document.getElementById("inputSearch");
+    let startDateInput = document.getElementById("inputDateStart");
+    let endDateInput = document.getElementById("inputDateEnd");
+
     let todoTable = document.getElementById("todoTable");
 
     while (todoTable.firstChild) {
@@ -70,21 +73,23 @@ let updateTodoList = function () {
 
     for (let todo in todoList) {
         //let newElement = document.createElement("div");
-
         let newTableTr = document.createElement("tr");
         let newDeleteButton = document.createElement("input");
         newDeleteButton.type = "button";
         newDeleteButton.value = "X";
-        newDeleteButton.className = "btn btn-danger";
+        newDeleteButton.className = "btn btn-outline-success";
         newDeleteButton.addEventListener("click",
             function () {
                 deleteTodo(todo);
             });
 
         if (
-            (filterInput.value === "") ||
-            (todoList[todo].title.includes(filterInput.value)) ||
-            (todoList[todo].description.includes(filterInput.value))
+            (filterInput.value === "" ||
+                todoList[todo].title.includes(filterInput.value) ||
+                todoList[todo].description.includes(filterInput.value) ||
+                todoList[todo].place.includes(filterInput.value)) &&
+            ((todoList[todo].dueDate >= startDateInput.value || startDateInput.value === "")
+                && (new Date(todoList[todo].dueDate) <= new Date(endDateInput.value) || endDateInput.value === ""))
         ) {
             /*let newElement = document.createElement("p");
             let newContent = document.createTextNode(todoList[todo].title + " " +
