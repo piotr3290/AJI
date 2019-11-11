@@ -1,30 +1,6 @@
 "use strict";
 let todoList = [];
 
-let initList = function () {
-    let savedList = window.localStorage.getItem("todos");
-    if (savedList != null)
-        todoList = JSON.parse(savedList);
-    else
-        todoList.push(
-            {
-                title: "Learn JS",
-                description: "Create a demo application for my TODO's",
-                place: "445",
-                dueDate: new Date(2019, 10, 16)
-            },
-            {
-                title: "Lecture test",
-                description: "Quick test from the first three lectures",
-                place: "F6",
-                dueDate: new Date(2019, 10, 17)
-            }
-        )
-
-};
-
-//initList();
-
 $.ajax({
     url: 'https://api.jsonbin.io/b/5dad5d53359b467a5851509e/latest',
     type: 'GET',
@@ -59,83 +35,32 @@ let updateJSONbin = function () {
 };
 
 let updateTodoList = function () {
-    //let todoListDiv = document.getElementById("todoListView");
-    let filterInput = document.getElementById("inputSearch");
-    let startDateInput = document.getElementById("inputDateStart");
-    let endDateInput = document.getElementById("inputDateEnd");
 
-    let todoTable = document.getElementById("todoTable");
+    let todoTableSelector =  $("#todoTable");
+    let inputSearchSelector = $("#inputSearch");
+    let inputDateStartSelector = $("#inputDateStart");
+    let inputDateEndSelector = $("#inputDateEnd");
+    todoTableSelector.empty();
 
-    while (todoTable.firstChild) {
-        //todoListDiv.removeChild(todoListDiv.firstChild);
-        todoTable.removeChild(todoTable.firstChild);
-    }
 
     for (let todo in todoList) {
-        //let newElement = document.createElement("div");
-        let newTableTr = document.createElement("tr");
-        let newDeleteButton = document.createElement("input");
-        newDeleteButton.type = "button";
-        newDeleteButton.value = "X";
-        newDeleteButton.className = "btn btn-outline-success";
-        newDeleteButton.addEventListener("click",
-            function () {
+
+        if ( searchCondition(todo, inputSearchSelector)
+            && dateCondition(todo, inputDateStartSelector, inputDateEndSelector)) {
+
+            todoTableSelector.append("<tr><td>" + todoList[todo].title + "</td>>" +
+                "<td>" + todoList[todo].description + "</td> " +
+                "<td>" + todoList[todo].place + "</td>"+
+                "<td>" + dateFormatStr(todoList[todo].dueDate) + "</td>" +
+                "<td><input type='button' value='X' class='btn btn-outline-success' /></td>"+
+                "</tr>");
+            $("#todoTable:last-child td input").click(function () {
                 deleteTodo(todo);
             });
-
-        if (
-            (filterInput.value === "" ||
-                todoList[todo].title.includes(filterInput.value) ||
-                todoList[todo].description.includes(filterInput.value) ||
-                todoList[todo].place.includes(filterInput.value)) &&
-            ((todoList[todo].dueDate >= startDateInput.value || startDateInput.value === "")
-                && (new Date(todoList[todo].dueDate) <= new Date(endDateInput.value) || endDateInput.value === ""))
-        ) {
-            /*let newElement = document.createElement("p");
-            let newContent = document.createTextNode(todoList[todo].title + " " +
-                                                            todoList[todo].description);
-            newElement.appendChild(newContent);
-            todoListDiv.appendChild(newElement);
-            newElement.appendChild(newDeleteButton);*/
-
-            /*let todoElements = ["title","description","place","dueDate"];
-            for (let todoElement in todoList[todo]){
-                let newTableTd = document.createElement("td");
-                let newContent = document.createTextNode(todoList[todo][todoElement]);
-                newTableTd.appendChild(newContent);
-                newTableTr.appendChild(newTableTd);
-            }*/
-
-            let newTableTd = document.createElement("td");
-            let newContent = document.createTextNode(todoList[todo].title);
-            newTableTd.appendChild(newContent);
-            newTableTr.appendChild(newTableTd);
-
-            newTableTd = document.createElement("td");
-            newContent = document.createTextNode(todoList[todo].description);
-            newTableTd.appendChild(newContent);
-            newTableTr.appendChild(newTableTd);
-
-            newTableTd = document.createElement("td");
-            newContent = document.createTextNode(todoList[todo].place);
-            newTableTd.appendChild(newContent);
-            newTableTr.appendChild(newTableTd);
-
-            let currentDate = new Date(todoList[todo].dueDate);
-            let formattedDate = currentDate.getFullYear() + "-" + addZero(currentDate.getMonth() + 1) + "-" + addZero(currentDate.getDate());
-
-            newTableTd = document.createElement("td");
-            newContent = document.createTextNode(formattedDate);
-            newTableTd.appendChild(newContent);
-            newTableTr.appendChild(newTableTd);
-
-            newTableTd = document.createElement("td");
-            newTableTd.appendChild(newDeleteButton);
-            newTableTr.appendChild(newTableTd);
+            console.log("test");
 
         }
 
-        todoTable.appendChild(newTableTr);
     }
 
 };
@@ -158,15 +83,15 @@ let deleteTodo = function (index) {
 };
 
 let addTodo = function () {
-    let inputTitle = document.getElementById("inputTitle");
-    let inputDescription = document.getElementById("inputDescription");
-    let inputPlace = document.getElementById("inputPlace");
-    let inputDate = document.getElementById("inputDate");
+    let inputTitle = $("#inputTitle");
+    let inputDescription = $("#inputDescription");
+    let inputPlace = $("#inputPlace");;
+    let inputDate = $("#inputDate");;
 
-    let newTitle = inputTitle.value;
-    let newDescription = inputDescription.value;
-    let newPlace = inputPlace.value;
-    let newDate = new Date(inputDate.value);
+    let newTitle = inputTitle.val();
+    let newDescription = inputDescription.val();
+    let newPlace = inputPlace.val();
+    let newDate = new Date(inputDate.val());
 
     let newTodo = {
         title: newTitle,
@@ -178,9 +103,28 @@ let addTodo = function () {
     todoList.push(newTodo);
     updateJSONbin();
 
-    inputTitle.value = "";
-    inputDescription.value = "";
-    inputPlace.value = "";
-    inputDate.value = "";
-    //window.localStorage.setItem("todos", JSON.stringify(todoList));
+    inputTitle.val("");
+    inputDescription.val("");
+    inputPlace.val("");
+    inputDate.val("");
+
+};
+
+let searchCondition = function(todo, inputSearchSelector){
+  return  inputSearchSelector.val() === "" ||
+      todoList[todo].title.includes(inputSearchSelector.val()) ||
+      todoList[todo].description.includes(inputSearchSelector.val()) ||
+      todoList[todo].place.includes(inputSearchSelector.val())
+};
+
+let dateCondition = function(todo, inputDateStartSelector, inputDateEndSelector){
+  return  (todoList[todo].dueDate >= inputDateStartSelector.val()
+      || inputDateStartSelector.val() === "")
+      && (new Date(todoList[todo].dueDate) <= new Date(inputDateEndSelector.val()) || inputDateEndSelector.val() === "")
+
+};
+
+let dateFormatStr = function(dueDate){
+    let currentDate = new Date(dueDate);
+    return currentDate.getFullYear() + "-" + addZero(currentDate.getMonth() + 1) + "-" + addZero(currentDate.getDate());
 };
