@@ -1,29 +1,37 @@
 <template>
     <div id="app">
         <div>
-            <HelloWorld/>
+            <app-movieTable v-bind:all-movies="myjson"/>
         </div>
         <div>
-            <Searching/>
+            <app-movieGenre v-bind:movie-list="randomMovies()"/>
         </div>
-      <div>
-        <MovieTable/>
-      </div>
     </div>
 </template>
 
 
 <script>
-    import HelloWorld from "./components/HelloWorld.vue";
-    import Searching from "./components/Searching";
     import MovieTable from "./components/MovieTable";
+    import json from "./movies.json";
+    import MovieGenres from "./components/MovieGenres";
+    import _ from 'lodash';
+
 
     export default {
         name: 'app',
         components: {
-            HelloWorld,
-            Searching,
-            MovieTable
+            'app-movieTable': MovieTable,
+            'app-movieGenre': MovieGenres
+        },
+        data: function () {
+            return{
+                myjson: json
+            }
+        },
+        methods: {
+            randomMovies: function () {
+                return _.slice(_.shuffle(this.myjson),0,100)
+            }
         }
     }
 </script>
