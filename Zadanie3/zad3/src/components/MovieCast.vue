@@ -1,8 +1,6 @@
 <template>
     <div>
-        <h2 v-b-tooltip.hover title="100 random movies group by genre">Filmography by genre</h2>
-
-
+        <h2 v-b-tooltip.hover title="100 random movies group by cast">Filmography by cast</h2>
         <b-button block variant="outline-info" v-on:click="toggleShow()">{{show.value}}</b-button>
         <div v-if="show.isShown">
             <div>
@@ -11,7 +9,7 @@
                 </b-button>
             </div>
             <ul id="genreList" v-if="grouped.length > 0">
-                <li id="genreListEl" v-bind:key="i" v-for="i in grouped.length">{{grouped[i-1].genre}}
+                <li id="genreListEl" v-bind:key="i" v-for="i in grouped.length">{{grouped[i-1].cast}}
                     <ul id="titleList">
                         <li v-bind:key="j" v-for="j in grouped[i-1].titles.length">
                             <a>{{grouped[i-1].titles[j-1]}}</a>
@@ -27,7 +25,7 @@
     import _ from 'lodash';
 
     export default {
-        name: "MovieGenres",
+        name: "MovieCast",
         props: ['movieList'],
         data: function () {
             return {
@@ -39,30 +37,29 @@
             }
         },
         methods: {
-            grupuj: function () {
+            grupuj2: function () {
+
                 _.each(this.movieList, function (o) {
-                    if (o.genres.length == 0) {
-                        o.genres.push("unknown");
+                    if (o.cast.length == 0) {
+                        o.cast.push("unknown");
                     }
                 });
                 let res = [];
                 _.each(this.movieList, function (o) {
-                    return _.each(o.genres, function (genre) {
-                        res.push({'title': o.title, 'genre': genre})
+                    return _.each(o.cast, function (cast) {
+                        res.push({'title': o.title, 'cast': cast})
                     })
                 });
-                this.grouped = _.each(_.sortBy(_.map(_.groupBy(res, 'genre'), function (o, gen) {
+                this.grouped = _.sortBy(_.map(_.groupBy(res, 'cast'), function (o, cas) {
                     return {
-                        genre: gen,
+                        cast: cas,
                         titles: _.map(o, 'title')
                     };
-                }), ['genre']), function (o) {
-                    o.titles = _.sortBy(o.titles);
-                });
+                }), ['cast', 'titles']);
 
 
             },
-            toggleShow: function () {
+            toggleShow() {
                 if (this.show.isShown) {
                     this.show.value = 'Show';
                 } else {
@@ -72,29 +69,21 @@
             },
             alertReload: function () {
                 this.$emit('randNewMovies');
-                this.grupuj();
+                this.grupuj2();
             }
         },
         mounted() {
-            this.grupuj();
+            this.grupuj2();
             this.alertReload();
         }
+
     }
 </script>
 
 <style scoped>
-    #genreList {
-        list-style-type: circle;
-    }
-
     #titleList {
         list-style-image: url("../images.jpg");
 
-    }
-
-    #genreListEl {
-        margin-bottom: 10px;
-        margin-top: 15px;
     }
 
     ul a {

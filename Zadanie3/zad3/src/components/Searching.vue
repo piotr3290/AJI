@@ -1,25 +1,25 @@
 <template>
     <div>
-        <h2>Baza filmów</h2>
-        <form>
-            <label>
-                Tytuł
-                <input type="text" placeholder="Podaj tytuł lub fragment tytułu filmu" v-model="searchInput.titleInput" />
-            </label>
-            <label>
-                Rok produkcji od:
-                <input type="number" placeholder="Liczba naturalna z przedziału 1900-2019" v-model="searchInput.fromYearInput"/>
-            </label>
-            <label>
-                Rok produkcji do:
-                <input type="number" placeholder="Liczba naturalna z przedziału 1900-2019" v-model="searchInput.toYearInput"/>
-            </label>
-            <label>
-                Obsada:
-                <input type="text" placeholder="Imię i nazwisko" v-model="searchInput.castInput"/>
-            </label>
-        </form>
-        <input type="button" value="Search" v-on:click="search">
+        <b-form-group label-cols-sm="3" label="Title:" label-for="inputTitleID">
+            <b-form-input id="inputTitleID" type="text" placeholder="Podaj tytuł lub fragment tytułu filmu"
+                          v-model="searchInput.titleInput"/>
+        </b-form-group>
+
+        <b-form-group label-cols-sm="3" label="Rok produkcji od:" label-for="inputFromID">
+            <b-input id="inputFromID" type="number" placeholder="Liczba naturalna z przedziału 1900-2019"
+                     v-model="searchInput.fromYearInput"/>
+        </b-form-group>
+
+        <b-form-group label-cols-sm="3" label="Rok produkcji do:" label-for="inputToID">
+            <b-input id="inputToID" type="number" placeholder="Liczba naturalna z przedziału 1900-2019"
+                     v-model="searchInput.toYearInput"/>
+        </b-form-group>
+
+        <b-form-group label-cols-sm="3" label="Obsada:" label-for="inputCastID">
+            <b-input id="inputCastID" type="text" placeholder="Imię i nazwisko" v-model="searchInput.castInput"/>
+        </b-form-group>
+
+        <b-button block variant="outline-info" type="button" v-on:click="search">Search</b-button>
 
     </div>
 </template>
@@ -27,9 +27,9 @@
 <script>
     export default {
         name: "Searching",
-        data: function() {
+        data: function () {
             return {
-                searchInput : {
+                searchInput: {
                     titleInput: '',
                     fromYearInput: '',
                     toYearInput: '',
