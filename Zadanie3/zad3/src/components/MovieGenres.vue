@@ -45,7 +45,9 @@
                         o.genres.push("unknown");
                     }
                 });
+
                 let res = [];
+
                 _.each(this.movieList, function (o) {
                     return _.each(o.genres, function (genre) {
                         res.push({'title': o.title, 'genre': genre})

@@ -1,6 +1,5 @@
 <template>
     <div id="app">
-
         <b-container fluid id="mainContainer">
 
             <b-row>
@@ -14,7 +13,7 @@
                     </b-nav>
                 </b-col>
                 <b-col id="col2" cols="10">
-                    <h1 id="secTable">Baza filmów</h1>
+                    <h1 id="secTable">Movies database</h1>
                     <app-movieTable v-bind:all-movies="myjson"/>
                     <app-movieGenre @randNewMovies="randGenre()" id="secGenre" v-bind:movie-list="randomMoviesGen"/>
                     <app-movieCast @randNewMovies="randCast()" id="secCast" v-bind:movie-list="randomMoviesCast"/>
