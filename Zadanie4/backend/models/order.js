@@ -28,14 +28,26 @@ module.exports.getAllByStatus = (id) => {
     });
 };
 
+module.exports.getById = (id) => {
+    return new Order({'id':id}).fetch({
+        withRelated: ['status', 'products.product']
+    });
+};
+
+module.exports.findById = (id) => {
+    return Order.where({"id":id}).count()
+}
+
+
 module.exports.create = (order) => {
     return new Order({
+        id: order.id,
         date_conf: order.date_conf,
         status_id: order.status_id,
         username: order.username,
         email: order.email,
         phone: order.phone
-    }).save();
+    }).save({}, {"method": "insert"});
 };
 
 module.exports.update = (order) => {

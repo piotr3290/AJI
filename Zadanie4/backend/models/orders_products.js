@@ -15,7 +15,7 @@ const OrdProd = bookshelf.Model.extend({
 module.exports.create = (ordprod) => {
     return OrdProd.forge({
         product_id: ordprod.product_id,
-        order_id: ordprod.order_id,
+        order_id: ordprod.order_id.toString(),
         amount: ordprod.amount
     }).save();
 };

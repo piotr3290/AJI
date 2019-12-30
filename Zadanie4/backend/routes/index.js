@@ -27,6 +27,6 @@ router.get('/orders/status/:id', OrdersController.getAllByStatus);
 router.post('/orders', OrdersController.store);
 router.put('/orders/:id/:status', OrdersController.update);
 
-router.post('/ordprod', OrderProductController.store);
+//router.post('/ordprod', OrderProductController.store);
 
 module.exports = router;

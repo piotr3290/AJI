@@ -27,6 +27,16 @@ module.exports.getById = (id) => {
     });
 };
 
+module.exports.getStatus = (id) => {
+    return new Product({'id':id}).fetch({
+        withRelated: ['category']
+    });
+};
+
+module.exports.findById = (id) => {
+    return Product.where({"id":id}).count()
+}
+
 module.exports.create = (product) => {
     return new Product({
         name_prod: product.name_prod,
