@@ -39,6 +39,7 @@ module.exports.findById = (id) => {
 
 module.exports.create = (product) => {
     return new Product({
+        id: product.id,
         name_prod: product.name_prod,
         description_prod: product.description_prod,
         price: product.price,

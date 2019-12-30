@@ -1,4 +1,5 @@
 const Product = require('../models/product');
+const UUID = require('uuid/v1');
 
 exports.getAll = (req, res) => {
     Product.getAll().then(
@@ -22,6 +23,7 @@ exports.getById = (req, res) => {
 };
 
 exports.store = (req, res) => {
+    id = UUID()
     if(req.body.name_prod === '' || req.body.name_prod == null ||
         req.body.description_prod ==='' || req.body.description_prod == null){
         res.json({msg: "You must fill everything", status: 422})
@@ -36,6 +38,7 @@ exports.store = (req, res) => {
     }
 
     const newProduct = Product.create({
+        'id':id,
         'name_prod': req.body.name_prod,
         'description_prod': req.body.description_prod,
         'price': req.body.price,
