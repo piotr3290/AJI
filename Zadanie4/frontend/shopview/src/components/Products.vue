@@ -1,9 +1,6 @@
 <template>
     <div>
-        <h1>Products</h1>
-        <h2>id {{p}}</h2>
-        <h2>ilosc {{amount}}</h2>
-        <b-table-simple dark hover><!--:items="products" :fields="fields"-->
+        <b-table-simple hover><!--:items="products" :fields="fields"-->
             <b-thead>
            <b-tr>
                 <b-th>Name</b-th>
@@ -17,10 +14,11 @@
             <b-tr v-for="product in products" v-bind:key="product.id">
                 <b-td>{{product.name_prod}}</b-td>
                 <b-td>{{product.description_prod}}</b-td>
-                <b-td>{{product.price}}</b-td>
-                <b-td><b-form inline v-on:submit="buy(product.id, product.amount)"><b-form-group>
-                    <b-input v-model="product.amount" min="1" type="number" placeholder="Enter quantity"/>
-                </b-form-group><b-button type="submit">Buy</b-button></b-form></b-td>
+                <b-td>{{euroFormat(product.price)}}</b-td>
+                <b-td><b-form inline v-on:submit.prevent="onSubmit(product)"><b-form-group>
+                    <b-input size="sm" required v-model="product.amount" min="1" type="number" placeholder="Enter quantity"/>
+                    <b-button size="sm" type="submit">Buy</b-button>
+                </b-form-group></b-form></b-td>
             </b-tr>
             </b-tbody>
         </b-table-simple>
@@ -31,34 +29,14 @@
     export default {
         name: 'Products',
         props: ['products'],
-        data: function () {
-            return {
-                p:0,
-                amount: 1,
-              fields: [
-                {
-                  key: 'name_prod',
-                  label: 'Name',
-                  sortable: true
-                },
-                {
-                  key: 'description_prod',
-                  label: 'Description',
-                  sortable: true
-                },
-                {
-                  key: 'price',
-                  label: 'Price',
-                  sortable: true
-                }
-              ]
-            }
-        },
         methods: {
-            buy: function (id, amount) {
-                this.p=id;
-                this.amount = amount;
-
+            onSubmit: function (product) {
+                let details = JSON.parse(JSON.stringify({id: product.id, amount: parseInt(product.amount)}));
+                product.amount = '';
+                this.$emit('productDetails', details);
+            },
+            euroFormat: function (number) {
+                return Intl.NumberFormat('de-DE', {style: 'currency', currency: 'EUR'}).format(number)
             }
         }
     }
@@ -81,5 +59,18 @@
 
     a {
         color: #42b983;
+    }
+
+    td,th {
+        background: #444 !important;
+        color: #eeeeee !important;
+    }
+
+    form {
+        display: inline;
+    }
+    .form-control:focus {
+        border-color: #9500ff;
+        box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(149, 0, 255, 0.6);
     }
 </style>
