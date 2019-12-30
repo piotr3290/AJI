@@ -1,9 +1,8 @@
 <template>
-    <div>
-        <h1>ALLPRODUCTS</h1>
-        <app-searching @searchingDetails="searchProducts($event)"/>
-        <app-products v-bind:products="filteredProducts"/>
-    </div>
+        <b-col>
+            <app-searching @searchingDetails="searchProducts($event)"/>
+            <app-products @productDetails="addToBasket($event)" v-bind:products="filteredProducts"/>
+        </b-col>
 </template>
 
 <script>
@@ -11,7 +10,6 @@
     import Searching from "../components/Searching";
     import axios from 'axios';
     import _ from 'lodash';
-
 
     export default {
         name: "AllProducts",
@@ -22,7 +20,8 @@
         data: function () {
             return {
                 products: [],
-                filteredProducts: []
+                filteredProducts: [],
+                basket: []
             }
         },
         methods: {
@@ -31,6 +30,22 @@
                     return prod.name_prod.toLowerCase().includes(details.nameInput.toLowerCase())
                         && (prod.category_id === details.selected || details.selected === 0)
                 })
+            },
+            addToBasket: function (details) {
+                let product = _.find(this.$route.params.basket, function (o) {
+                    return o.id === details.id;
+                });
+                if (!product) {
+                    product = JSON.parse(JSON.stringify(_.find(this.products, function (o) {
+                        return o.id === details.id;
+                    })));
+                    product.amount = details.amount;
+                    this.$route.params.basket.push(product)
+
+                } else {
+                    product.amount += details.amount;
+                }
+
             }
         },
         created() {
@@ -45,5 +60,9 @@
 </script>
 
 <style scoped>
+    div > * {
+        margin-top: 20px !important;
+        margin-bottom: 20px !important;
+    }
 
 </style>
