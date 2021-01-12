@@ -19,11 +19,10 @@ exports.getById = (req, res) => {
         res.json({error: error})
     })
 
-    //res.json(_.find(products,function(product) { return product.id == req.params.id}));
 };
 
 exports.store = (req, res) => {
-    id = UUID()
+    id = UUID();
     if(req.body.name_prod === '' || req.body.name_prod == null ||
         req.body.description_prod ==='' || req.body.description_prod == null){
         res.json({msg: "You must fill everything", status: 422})

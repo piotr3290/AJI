@@ -1,7 +1,7 @@
 const Order = require('../models/order');
 const OrderProduct = require('../models/orders_products');
-const UUID = require('uuid/v1')
-const Product = require('../models/product')
+const UUID = require('uuid/v1');
+const Product = require('../models/product');
 
 exports.getAll = (req, res) => {
     Order.getAll().then(
@@ -9,7 +9,6 @@ exports.getAll = (req, res) => {
             res.json(allProducts);
         }
     );
-    //res.json(products);
 };
 
 exports.getAllByStatus = (req, res) => {
@@ -43,7 +42,7 @@ exports.store = (req, res) => {
         'phone': req.body.phone
     }).then(function () {
             const promises = [];
-            let answer = {'status': 'saved!', 'product': newOrder,}
+            let answer = {'status': 'saved!', 'product': newOrder};
              for (let product of req.body.products) {
                  Product.findById(product.product_id).then(function (liczonko) {
                      if (liczonko == 0) {
@@ -54,8 +53,9 @@ exports.store = (req, res) => {
                      if(product.amount <= 0 || !/^\d+$/.test(product.amount)){
                          res.json({"msg":"Amount must be positive number", "status":422})
                      }
-                 })
+                 });
                  let promise = OrderProduct.create({
+                     id: UUID(),
                      order_id: id,
                      product_id: product.product_id,
                      amount: product.amount

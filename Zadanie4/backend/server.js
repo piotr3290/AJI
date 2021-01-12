@@ -6,5 +6,3 @@ const server = app.listen(app.get('port'), () => {
     console.log(`Product service is listening on
     ${server.address().port}`);
 });
-
-//module.exports = app;

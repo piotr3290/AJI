@@ -35,7 +35,7 @@ module.exports.getStatus = (id) => {
 
 module.exports.findById = (id) => {
     return Product.where({"id":id}).count()
-}
+};
 
 module.exports.create = (product) => {
     return new Product({

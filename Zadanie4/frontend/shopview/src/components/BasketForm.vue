@@ -35,7 +35,7 @@
             finalize: function (event) {
                 let products = [];
                 for (let product of this.$route.params.basket) {
-                    products.push({order_id: 8, product_id: product.id, amount: product.amount})
+                    products.push({product_id: product.id, amount: product.amount})
                 }
 
                 if (products.length === 0) {

@@ -1,7 +1,7 @@
 const OrderProduct = require('../models/orders_products');
 const UUID = require('uuid/v1');
 exports.store = (req, res) => {
-    id = UUID();
+    let id = UUID();
     const newOrdProd = OrderProduct.create({
         'id': id,
         'product_id': req.body.product_id,

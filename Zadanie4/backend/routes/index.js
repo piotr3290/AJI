@@ -1,15 +1,12 @@
 const express = require('express');
 const router = express.Router();
-//const cors = require('cors');
 
 const IndexController = require('../controllers/IndexController');
 const ProductsContorller = require('../controllers/ProductsController');
 const CategoriesController = require('../controllers/CategoriesController');
 const StatusesController = require('../controllers/StatusesController');
 const OrdersController = require('../controllers/OrdersController');
-const OrderProductController = require('../controllers/OrdersProductsController');
 
-//router.all('*', cors());
 
 router.get('/', IndexController.home);
 
@@ -27,6 +24,5 @@ router.get('/orders/status/:id', OrdersController.getAllByStatus);
 router.post('/orders', OrdersController.store);
 router.put('/orders/:id/:status', OrdersController.update);
 
-//router.post('/ordprod', OrderProductController.store);
 
 module.exports = router;
